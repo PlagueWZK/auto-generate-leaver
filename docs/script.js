@@ -13,24 +13,24 @@ document.getElementById('leave-form').addEventListener('submit', async function(
 
         // 2. 从表单中获取用户输入的值
         const name = document.getElementById('name').value;
+        const id = document.getElementById('id').value;
         const reasonType = document.getElementById('reason-type').value;
         const description = document.getElementById('description').value;
         const destination = document.getElementById('destination').value;
         const startDate = document.getElementById('start-date').value;
         const classPeriods = document.getElementById('class-periods').value;
         const approver = document.getElementById('approver').value;
-        const currentDate = new Date().toLocaleDateString('zh-CN');
 
         // 3. 使用获取到的值替换模板中的占位符
         const filledContent = templateContent
             .replace(/{{name}}/g, name)
+            .replace(/{{id}}/g, id)
             .replace(/{{reason}}/g, reasonType)
             .replace(/{{description}}/g, description)
             .replace(/{{destination}}/g, destination)
             .replace(/{{start}}/g, startDate)
             .replace(/{{class}}/g, classPeriods)
             .replace(/{{teacher}}/g, approver);
-            //.replace(/{{CURRENT_DATE}}/g, currentDate);
 
         // 4. 创建并触发下载
         downloadHtml(filledContent, `请假条-${name}.html`);
