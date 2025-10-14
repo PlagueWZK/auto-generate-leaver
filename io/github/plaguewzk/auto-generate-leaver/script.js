@@ -23,14 +23,14 @@ document.getElementById('leave-form').addEventListener('submit', async function(
 
         // 3. 使用获取到的值替换模板中的占位符
         const filledContent = templateContent
-            .replace(/{{NAME}}/g, name)
-            .replace(/{{REASON_TYPE}}/g, reasonType)
-            .replace(/{{DESCRIPTION}}/g, description)
-            .replace(/{{DESTINATION}}/g, destination)
-            .replace(/{{START_DATE}}/g, startDate)
-            .replace(/{{CLASS_PERIODS}}/g, classPeriods)
-            .replace(/{{APPROVER}}/g, approver)
-            .replace(/{{CURRENT_DATE}}/g, currentDate);
+            .replace(/{{name}}/g, name)
+            .replace(/{{reason}}/g, reasonType)
+            .replace(/{{description}}/g, description)
+            .replace(/{{destination}}/g, destination)
+            .replace(/{{start}}/g, startDate)
+            .replace(/{{class}}/g, classPeriods)
+            .replace(/{{teacher}}/g, approver);
+            //.replace(/{{CURRENT_DATE}}/g, currentDate);
 
         // 4. 创建并触发下载
         downloadHtml(filledContent, `请假条-${name}.html`);
