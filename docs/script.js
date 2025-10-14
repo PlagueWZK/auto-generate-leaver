@@ -14,12 +14,12 @@ document.getElementById('leave-form').addEventListener('submit', async function(
         // 2. 从表单中获取用户输入的值
         const name = document.getElementById('name').value;
         const id = document.getElementById('id').value;
-        const reasonType = document.getElementById('reason-type').value;
+        const reasonType = document.getElementById('reason').value;
         const description = document.getElementById('description').value;
         const destination = document.getElementById('destination').value;
-        const startDate = document.getElementById('start-date').value;
-        const classPeriods = document.getElementById('class-periods').value;
-        const approver = document.getElementById('approver').value;
+        const startDate = document.getElementById('start').value;
+        const classPeriods = document.getElementById('class').value;
+        const approver = document.getElementById('teacher').value;
 
         // 3. 使用获取到的值替换模板中的占位符
         const filledContent = templateContent
@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 找到表单和节次输入框
     const form = document.getElementById('leave-form'); // 假设你的表单ID是 leave-form
-    const classPeriodsInput = document.getElementById('class-periods');
-    const errorLabel = document.getElementById('class-periods-error');
+    const classPeriodsInput = document.getElementById('class');
+    const errorLabel = document.getElementById('class-error');
 
     if (form && classPeriodsInput) {
         form.addEventListener('submit', function(event) {
