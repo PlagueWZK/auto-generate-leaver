@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请假条生成器</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+<h1>请假信息提交</h1>
+<form id="leave-form">
+    <div class="form-group">
+        <label for="name">姓名:</label>
+        <input type="text" id="name" required>
+    </div>
+    <div class="form-group">
+        <label for="reason-type">请假原因:</label>
+        <input type="text" id="reason-type" placeholder="例如：事假、病假" required>
+    </div>
+    <div class="form-group">
+        <label for="description">原因描述:</label>
+        <textarea id="description" rows="4" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="destination">目的地:</label>
+        <input type="text" id="destination" required>
+    </div>
+    <div class="form-group">
+        <label for="start-date">开始日期:</label>
+        <input type="date" id="start-date" required>
+    </div>
+    <div class="form-group">
+        <label for="class-periods">节次:</label>
+        <input type="text" id="class-periods" placeholder="格式: 1-2,5-6" pattern="^(\d{1,2}-\d{1,2})(,(\d{1,2}-\d{1,2}))*$" required>
+    </div>
+    <div class="form-group">
+        <label for="approver">审核人:</label>
+        <input type="text" id="approver" required>
+    </div>
+    <button type="submit">生成并下载请假条</button>
+</form>
+
+<script src="script.js"></script>
+</body>
+</html>
