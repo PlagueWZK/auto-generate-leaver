@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片信息修改器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>图片信息修改器</h1>
+
+<div class="main-container">
+    <div class="controls">
+        <h3>控制面板</h3>
+        <label for="name-input">姓名:</label>
+        <input type="text" id="name-input" value="防呆文本">
+        <label for="student-id-input">学号:</label>
+        <input type="text" id="student-id-input" value="2023410000">
+        <label for="type-input">请假类型:</label>
+        <input type="text" id="type-input" value="短假">
+        <label for="leave-input">是否离校:</label>
+        <input type="text" id="leave-input" value="否">
+        <label for="reason-input">请假原因:</label>
+        <input type="text" id="reason-input" value="事假">
+        <label for="description-input">原因描述:</label>
+        <input type="text" id="description-input" value="防呆文本">
+        <label for="destination-input">目的地:</label>
+        <input type="text" id="destination-input" value="防呆文本">
+        <label for="start-input">开始时间:</label>
+        <input type="text" id="start-input" value="2025-01-01 00:00">
+        <label for="end-input">结束时间:</label>
+        <input type="text" id="end-input" value="2025-01-02 00:00">
+        <label for="class-input">节次:</label>
+        <input type="text" id="class-input" value="[1-2, 3-4]">
+        <label for="state-input">审核状态:</label>
+        <input type="text" id="state-input" value="审核通过">
+        <label for="teacher-input">审核人:</label>
+        <input type="text" id="teacher-input" value="防呆文本">
+
+        <div class="toggle-switch-container">
+            <label for="image-switch">切换为最终版本:</label>
+            <label class="switch">
+                <input type="checkbox" id="image-switch">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <label for="qr-code-input">上传二维码:</label>
+        <input type="file" id="qr-code-input" accept="image/*">
+
+        <button id="save-btn">生成并下载图片</button>
+    </div>
+
+    <div class="editor-area">
+        <div id="image-container">
+            <div id="name-overlay" class="draggable-text">姓名</div>
+            <div id="student-id-overlay" class="draggable-text">2023410000</div>
+            <div id="type-overlay" class="draggable-text">短假</div>
+            <div id="leave-overlay" class="draggable-text">否</div>
+            <div id="reason-overlay" class="draggable-text">事假</div>
+            <div id="description-overlay" class="draggable-text">防呆文本</div>
+            <div id="destination-overlay" class="draggable-text">防呆文本</div>
+            <div id="start-overlay" class="draggable-text">2025-01-01 00:00</div>
+            <div id="end-overlay" class="draggable-text">2025-01-02 00:00</div>
+            <div id="class-overlay" class="draggable-text">[1-2, 3-4]</div>
+            <div id="state-overlay" class="draggable-text">审核通过</div>
+            <div id="teacher-overlay" class="draggable-text">防呆文本</div>
+            <img src="qrcode.png" id="qr-code-overlay" class="draggable-img" alt="QR Code">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
