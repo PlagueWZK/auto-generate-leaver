@@ -104,6 +104,12 @@
         <details class="advanced-settings">
             <summary>详细设置 (各元素垂直位置)</summary>
             <div class="settings-content">
+                <div class="offset-controls">
+                    <label for="offset-input"></label><input type="number" id="offset-input" value="10" placeholder="整体偏移量">
+                    <button id="apply-offset-btn" class="settings-btn">应用偏移</button>
+                    <button id="reset-defaults-btn" class="settings-btn">恢复默认</button>
+                </div>
+                <hr>
                 <label for="top-pos-name">姓名 (px):</label>
                 <input type="number" id="top-pos-name" data-target="name-overlay" value="141">
                 <label for="top-pos-student-id">学号 (px):</label>
