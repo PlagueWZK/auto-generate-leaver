@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 样式和位置控制
     const leftPosInput = document.getElementById('left-pos-input');
     const fontSizeInput = document.getElementById('font-size-input');
-    const fontFamilySelect = document.getElementById('font-family-select');
+    // const fontFamilySelect = document.getElementById('font-family-select'); // <- 已删除
     const qrCodeInput = document.getElementById('qr-code-input');
     const qrCodeSizeInput = document.getElementById('qr-code-size-input');
     const qrCodeLeftInput = document.getElementById('qr-code-left-input');
@@ -109,7 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 省略部分无变化函数...
     function updateTextHorizontalPosition() { const left = leftPosInput.value; textOverlays.forEach((el) => { el.style.left = `${left}px`; }); }
     function updateTextVerticalPosition(inputElement) { const targetId = inputElement.dataset.target; const targetOverlay = document.getElementById(targetId); if (targetOverlay) { targetOverlay.style.top = `${inputElement.value}px`; } }
-    function updateTextStyles() { const fontSize = fontSizeInput.value; const fontFamily = fontFamilySelect.value; textOverlays.forEach(el => { el.style.fontSize = `${fontSize}px`; el.style.fontFamily = fontFamily; }); }
+
+    // 【已修改】更新文本样式函数，不再处理字体
+    function updateTextStyles() {
+        const fontSize = fontSizeInput.value;
+        textOverlays.forEach(el => {
+            el.style.fontSize = `${fontSize}px`;
+        });
+    }
+
     function updateQrCodeSize() { const size = qrCodeSizeInput.value; if (size > 0) { qrCodeOverlay.style.width = `${size}px`; qrCodeOverlay.style.height = `${size}px`; } }
     function updateQrCodePosition() { qrCodeOverlay.style.left = `${qrCodeLeftInput.value}px`; qrCodeOverlay.style.top = `${qrCodeTopInput.value}px`; }
     function makeDraggable(element) { let isDragging = false, offsetX, offsetY; element.addEventListener('mousedown', (e) => { e.preventDefault(); isDragging = true; const rect = element.getBoundingClientRect(); offsetX = e.clientX - rect.left; offsetY = e.clientY - rect.top; document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp); }); function onMouseMove(e) { if (!isDragging) return; const containerRect = imageContainer.getBoundingClientRect(); let newLeft = e.clientX - containerRect.left - offsetX; let newTop = e.clientY - containerRect.top - offsetY; newLeft = Math.max(0, Math.min(newLeft, containerRect.width - element.offsetWidth)); newTop = Math.max(0, Math.min(newTop, containerRect.height - element.offsetHeight)); element.style.left = `${newLeft}px`; element.style.top = `${newTop}px`; qrCodeLeftInput.value = Math.round(newLeft); qrCodeTopInput.value = Math.round(newTop); } function onMouseUp() { isDragging = false; document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); } }
@@ -206,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         leftPosInput.addEventListener('input', updateTextHorizontalPosition);
         fontSizeInput.addEventListener('input', updateTextStyles);
-        fontFamilySelect.addEventListener('change', updateTextStyles);
+        // fontFamilySelect.addEventListener('change', updateTextStyles); // <- 已删除
         qrCodeSizeInput.addEventListener('input', updateQrCodeSize);
         qrCodeLeftInput.addEventListener('input', updateQrCodePosition);
         qrCodeTopInput.addEventListener('input', updateQrCodePosition);
