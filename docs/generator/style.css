@@ -1,24 +1,31 @@
 body {
-    font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: #f0f2f5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: 0;
     padding: 20px;
-    font-weight: bold;
 }
 
 h1 {
     color: #333;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+h3:first-of-type {
+    margin-top: 0;
 }
 
 .main-container {
     display: flex;
+    flex-direction: column; /* 垂直排列，适应移动端 */
+    align-items: center;
     gap: 30px;
     width: 100%;
-    max-width: 1200px;
-    justify-content: center;
 }
 
 .controls {
@@ -28,218 +35,159 @@ h1 {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    width: 250px;
+    gap: 10px;
+    width: 90%;
+    max-width: 400px; /* 控制最大宽度 */
 }
 
 .controls label {
     font-weight: bold;
     color: #555;
+    margin-top: 5px;
 }
 
-.controls input[type="text"], .controls input[type="file"] {
+.controls input[type="text"],
+.controls input[type="file"],
+.controls input[type="number"],
+.controls select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* 保证 padding 不会撑大宽度 */
+    box-sizing: border-box;
 }
 
 .controls button {
-    padding: 10px 15px;
+    padding: 12px 15px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 10px;
     transition: background-color 0.3s;
 }
 
+#preview-btn {
+    background-color: #28a745; /* 绿色 */
+}
+
 .controls button:hover {
-    background-color: #0056b3;
+    opacity: 0.85;
 }
 
 .editor-area {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
 }
 
-/* 关键样式：图片容器 */
 #image-container {
-    width: 374px; /* 根据您的底图宽度调整 */
-    height: 825px; /* 根据您的底图高度调整 */
+    width: 380px;
+    height: 822px;
     background-image: url('original.png');
     background-size: contain;
     background-repeat: no-repeat;
-    position: relative; /* 必须是相对定位，作为子元素的定位基准 */
+    position: relative;
     border: 1px solid #ddd;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform-origin: top left; /* 用于缩放 */
 }
 
-/* 关键样式：可拖拽的文本和图片 */
-.draggable-text, .draggable-img {
-    position: absolute; /* 绝对定位，使其可以在容器内自由移动 */
-    cursor: move; /* 鼠标样式变为可移动 */
-    user-select: none; /* 防止拖动时选中文本 */
-}
-
-/* 文本样式 */
-#name-overlay {
-    top: 140px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
+/* 统一文本浮层样式 */
+.text-overlay {
+    position: absolute;
+    user-select: none; /* 防止选中文本 */
+    white-space: nowrap; /* 防止文本换行 */
     font-size: 16px;
     color: #000000;
 }
+/* 移除了 .draggable-text 的 cursor: move */
 
-#student-id-overlay {
-    top: 170px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 17px;
-    color: #000000;
-}
-
-#type-overlay {
-    top: 200px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
+.draggable-img {
+    position: absolute;
+    cursor: move; /* 仅图片可拖拽 */
+    user-select: none;
 }
 
-#leave-overlay {
-    top: 230px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
+/* 初始位置定义 */
+#name-overlay { top: 140px; left: 140px; }
+#student-id-overlay { top: 170px; left: 140px; }
+#type-overlay { top: 200px; left: 140px; }
+#leave-overlay { top: 230px; left: 140px; }
+#reason-overlay { top: 260px; left: 140px; }
+#description-overlay { top: 290px; left: 140px; }
+#destination-overlay { top: 320px; left: 140px; }
+#start-overlay { top: 350px; left: 140px; }
+#end-overlay { top: 380px; left: 140px; }
+#class-overlay { top: 410px; left: 140px; }
+#state-overlay { top: 440px; left: 140px; }
+#teacher-overlay { top: 470px; left: 140px; }
 
-#reason-overlay {
-    top: 260px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
-
-#description-overlay {
-    top: 290px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
-
-#destination-overlay {
-    top: 320px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
-
-#start-overlay {
-    top: 350px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 17px;
-    color: #000000;
-}
-
-#end-overlay {
-    top: 380px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 17px;
-    color: #000000;
-}
-#class-overlay {
-    top: 410px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
-
-#state-overlay {
-    top: 440px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
-
-#teacher-overlay {
-    top: 470px; /* 初始位置 */
-    left: 140px; /* 初始位置 */
-    font-size: 16px;
-    color: #000000;
-}
 
 /* 二维码图片样式 */
 #qr-code-overlay {
-    top: 530px; /* 初始位置 */
-    left: 148px; /* 初始位置 */
-    width: 150px; /* 初始大小 */
-    height: 150px; /* 初始大小 */
-    /* ===== 开始：修改的代码 ===== */
+    top: 526px;
+    left: 148px;
+    width: 150px;
+    height: 150px;
     opacity: 0.5; /* 默认设为半透明 */
-    transition: opacity 0.3s ease-in-out; /* 添加平滑过渡效果 */
-    /* ===== 结束：修改的代码 ===== */
+    transition: opacity 0.3s ease-in-out;
 }
 
-/* ===== 开始：新增的代码 ===== */
+/* 开关样式 */
 .toggle-switch-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 使标签和开关两端对齐 */
+    justify-content: space-between;
     margin-top: 5px;
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-}
+.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: #007bff; }
+input:checked + .slider:before { transform: translateX(26px); }
+.slider.round { border-radius: 24px; }
+.slider.round:before { border-radius: 50%; }
 
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
+/* 全屏预览模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
 }
 
-.slider:before {
+#modal-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-content #image-container {
+    border: none;
+    box-shadow: none;
+    /* 通过JS动态计算缩放比例 */
+}
+
+.close-btn {
     position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #007bff;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #007bff;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 24px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
 }

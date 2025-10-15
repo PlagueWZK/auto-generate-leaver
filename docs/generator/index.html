@@ -11,8 +11,26 @@
 <h1>图片信息修改器</h1>
 
 <div class="main-container">
+    <div class="editor-area">
+        <div id="image-container">
+            <div id="name-overlay" class="text-overlay">魏装亮</div>
+            <div id="student-id-overlay" class="text-overlay">2023410000</div>
+            <div id="type-overlay" class="text-overlay">短假</div>
+            <div id="leave-overlay" class="text-overlay">否</div>
+            <div id="reason-overlay" class="text-overlay">事假</div>
+            <div id="description-overlay" class="text-overlay">防呆文本</div>
+            <div id="destination-overlay" class="text-overlay">防呆文本</div>
+            <div id="start-overlay" class="text-overlay">2025-01-01 00:00</div>
+            <div id="end-overlay" class="text-overlay">2025-01-02 00:00</div>
+            <div id="class-overlay" class="text-overlay">[1-2, 3-4]</div>
+            <div id="state-overlay" class="text-overlay">审核通过</div>
+            <div id="teacher-overlay" class="text-overlay">防呆文本</div>
+            <img id="qr-code-overlay" class="draggable-img" alt="QR Code" style="display: none;">
+        </div>
+    </div>
+
     <div class="controls">
-        <h3>控制面板</h3>
+        <h3>1. 内容编辑</h3>
         <label for="name-input">姓名:</label>
         <input type="text" id="name-input" value="防呆文本">
         <label for="student-id-input">学号:</label>
@@ -38,37 +56,46 @@
         <label for="teacher-input">审核人:</label>
         <input type="text" id="teacher-input" value="防呆文本">
 
+        <h3>2. 样式与位置</h3>
+        <label for="left-pos-input">文字水平位置 (px):</label>
+        <input type="number" id="left-pos-input" value="140">
+        <label for="top-pos-input">顶部起始位置 (px):</label>
+        <input type="number" id="top-pos-input" value="140">
+        <label for="spacing-input">文字垂直间距 (px):</label>
+        <input type="number" id="spacing-input" value="30">
+        <label for="font-size-input">字体大小 (px):</label>
+        <input type="number" id="font-size-input" value="16">
+        <label for="font-family-select">选择字体:</label>
+        <select id="font-family-select">
+            <option value="sans-serif">无衬线 (默认)</option>
+            <option value="serif">衬线体</option>
+            <option value="monospace">等宽字体</option>
+            <option value="Microsoft YaHei, sans-serif">微软雅黑</option>
+            <option value="SimSun, serif">宋体</option>
+            <option value="SimHei, sans-serif">黑体</option>
+        </select>
+
+        <label for="qr-code-size-input">二维码边长 (px):</label>
+        <input type="number" id="qr-code-size-input" value="150">
+        <label for="qr-code-input">上传二维码:</label>
+        <input type="file" id="qr-code-input" accept="image/*">
+
+        <h3>3. 操作</h3>
         <div class="toggle-switch-container">
-            <label for="image-switch">切换为最终版本:</label>
+            <label for="image-switch">使用最终版本底图:</label>
             <label class="switch">
                 <input type="checkbox" id="image-switch">
                 <span class="slider round"></span>
             </label>
         </div>
-
-        <label for="qr-code-input">上传二维码:</label>
-        <input type="file" id="qr-code-input" accept="image/*">
-
-        <button id="save-btn">生成并下载图片</button>
+        <button id="preview-btn">全屏预览 (方便截图)</button>
+        <button id="save-btn">下载图片 (可能模糊)</button>
     </div>
+</div>
 
-    <div class="editor-area">
-        <div id="image-container">
-            <div id="name-overlay" class="draggable-text">姓名</div>
-            <div id="student-id-overlay" class="draggable-text">2023410000</div>
-            <div id="type-overlay" class="draggable-text">短假</div>
-            <div id="leave-overlay" class="draggable-text">否</div>
-            <div id="reason-overlay" class="draggable-text">事假</div>
-            <div id="description-overlay" class="draggable-text">防呆文本</div>
-            <div id="destination-overlay" class="draggable-text">防呆文本</div>
-            <div id="start-overlay" class="draggable-text">2025-01-01 00:00</div>
-            <div id="end-overlay" class="draggable-text">2025-01-02 00:00</div>
-            <div id="class-overlay" class="draggable-text">[1-2, 3-4]</div>
-            <div id="state-overlay" class="draggable-text">审核通过</div>
-            <div id="teacher-overlay" class="draggable-text">防呆文本</div>
-            <img src="qrcode.png" id="qr-code-overlay" class="draggable-img" alt="QR Code">
-        </div>
-    </div>
+<div id="fullscreen-modal" class="modal">
+    <span class="close-btn">&times;</span>
+    <div id="modal-content"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
