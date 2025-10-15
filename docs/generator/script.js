@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         teacher: document.getElementById('teacher-overlay'),
     };
 
-    // 新增：单选和多选框组
     const reasonRadioGroup = document.getElementById('reason-radio-group');
     const classCheckboxGroup = document.getElementById('class-checkbox-group');
 
@@ -43,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const fontFamilySelect = document.getElementById('font-family-select');
     const qrCodeInput = document.getElementById('qr-code-input');
     const qrCodeSizeInput = document.getElementById('qr-code-size-input');
-    const qrCodeLeftInput = document.getElementById('qr-code-left-input'); // 新增
-    const qrCodeTopInput = document.getElementById('qr-code-top-input');   // 新增
+    const qrCodeLeftInput = document.getElementById('qr-code-left-input');
+    const qrCodeTopInput = document.getElementById('qr-code-top-input');
     const imageSwitch = document.getElementById('image-switch');
     const advancedPositionInputs = document.querySelectorAll('.advanced-settings input[type="number"]');
 
@@ -105,131 +104,104 @@ document.addEventListener('DOMContentLoaded', () => {
         qrCodeOverlay.style.opacity = isFinalVersion ? '1' : '0.5';
     });
 
-    // 6. 更新所有文本的水平位置
-    function updateTextHorizontalPosition() {
-        const left = leftPosInput.value;
-        textOverlays.forEach((el) => {
-            el.style.left = `${left}px`;
-        });
-    }
+    // 省略部分无变化函数...
+    function updateTextHorizontalPosition() { const left = leftPosInput.value; textOverlays.forEach((el) => { el.style.left = `${left}px`; }); }
+    function updateTextVerticalPosition(inputElement) { const targetId = inputElement.dataset.target; const targetOverlay = document.getElementById(targetId); if (targetOverlay) { targetOverlay.style.top = `${inputElement.value}px`; } }
+    function updateTextStyles() { const fontSize = fontSizeInput.value; const fontFamily = fontFamilySelect.value; textOverlays.forEach(el => { el.style.fontSize = `${fontSize}px`; el.style.fontFamily = fontFamily; }); }
+    function updateQrCodeSize() { const size = qrCodeSizeInput.value; if (size > 0) { qrCodeOverlay.style.width = `${size}px`; qrCodeOverlay.style.height = `${size}px`; } }
+    function updateQrCodePosition() { qrCodeOverlay.style.left = `${qrCodeLeftInput.value}px`; qrCodeOverlay.style.top = `${qrCodeTopInput.value}px`; }
+    function makeDraggable(element) { let isDragging = false, offsetX, offsetY; element.addEventListener('mousedown', (e) => { e.preventDefault(); isDragging = true; const rect = element.getBoundingClientRect(); offsetX = e.clientX - rect.left; offsetY = e.clientY - rect.top; document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp); }); function onMouseMove(e) { if (!isDragging) return; const containerRect = imageContainer.getBoundingClientRect(); let newLeft = e.clientX - containerRect.left - offsetX; let newTop = e.clientY - containerRect.top - offsetY; newLeft = Math.max(0, Math.min(newLeft, containerRect.width - element.offsetWidth)); newTop = Math.max(0, Math.min(newTop, containerRect.height - element.offsetHeight)); element.style.left = `${newLeft}px`; element.style.top = `${newTop}px`; qrCodeLeftInput.value = Math.round(newLeft); qrCodeTopInput.value = Math.round(newTop); } function onMouseUp() { isDragging = false; document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); } }
 
-    // 7. 更新单个文本的垂直位置
-    function updateTextVerticalPosition(inputElement) {
-        const targetId = inputElement.dataset.target;
-        const targetOverlay = document.getElementById(targetId);
-        if (targetOverlay) {
-            targetOverlay.style.top = `${inputElement.value}px`;
-        }
-    }
 
-    // 8. 更新所有文本的字体样式
-    function updateTextStyles() {
-        const fontSize = fontSizeInput.value;
-        const fontFamily = fontFamilySelect.value;
-        textOverlays.forEach(el => {
-            el.style.fontSize = `${fontSize}px`;
-            el.style.fontFamily = fontFamily;
-        });
-    }
+    // ---【核心修改】模态框与历史记录管理 ---
 
-    // 9. 更新二维码尺寸
-    function updateQrCodeSize() {
-        const size = qrCodeSizeInput.value;
-        if (size > 0) {
-            qrCodeOverlay.style.width = `${size}px`;
-            qrCodeOverlay.style.height = `${size}px`;
-        }
-    }
-
-    // 10. 更新二维码位置
-    function updateQrCodePosition() {
-        qrCodeOverlay.style.left = `${qrCodeLeftInput.value}px`;
-        qrCodeOverlay.style.top = `${qrCodeTopInput.value}px`;
-    }
-
-    // 11. 使元素可拖拽
-    function makeDraggable(element) {
-        let isDragging = false, offsetX, offsetY;
-        element.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            isDragging = true;
-            const rect = element.getBoundingClientRect();
-            imageContainer.getBoundingClientRect();
-// 鼠标点击位置相对于元素左上角的偏移
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        });
-
-        function onMouseMove(e) {
-            if (!isDragging) return;
-            const containerRect = imageContainer.getBoundingClientRect();
-            let newLeft = e.clientX - containerRect.left - offsetX;
-            let newTop = e.clientY - containerRect.top - offsetY;
-
-            // 限制在容器内
-            newLeft = Math.max(0, Math.min(newLeft, containerRect.width - element.offsetWidth));
-            newTop = Math.max(0, Math.min(newTop, containerRect.height - element.offsetHeight));
-
-            element.style.left = `${newLeft}px`;
-            element.style.top = `${newTop}px`;
-
-            // 同步更新输入框的值
-            qrCodeLeftInput.value = Math.round(newLeft);
-            qrCodeTopInput.value = Math.round(newTop);
-        }
-
-        function onMouseUp() {
-            isDragging = false;
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-        }
-    }
-
-    // 12. 全屏预览功能
-    previewBtn.addEventListener('click', () => {
+    // 显示模态框
+    function showModal(content, state = 'modal', hash = '#modal') {
         modalContent.innerHTML = '';
+        modalContent.appendChild(content);
+        modal.style.display = 'flex';
+        // 向浏览器历史添加一个状态，这样返回键会先关闭模态框
+        history.pushState({ page: state }, '', hash);
+    }
+
+    // 关闭模态框
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // 监听浏览器后退事件
+    window.addEventListener('popstate', () => {
+        closeModal();
+    });
+
+    // 为关闭按钮和背景点击添加返回操作
+    closeModalBtn.addEventListener('click', () => history.back());
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            history.back();
+        }
+    });
+
+    // 12. 【已修改】全屏预览功能
+    previewBtn.addEventListener('click', () => {
         const clone = imageContainer.cloneNode(true);
         const scaleX = window.innerWidth / clone.offsetWidth;
         const scaleY = window.innerHeight / clone.offsetHeight;
         const scale = Math.min(scaleX, scaleY) * 0.95;
         clone.style.transform = `scale(${scale})`;
-        clone.style.transformOrigin = 'center center'; // 居中缩放
-        modalContent.appendChild(clone);
-        modal.style.display = 'flex';
-    });
-    closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
+        clone.style.transformOrigin = 'center center';
+        showModal(clone, 'preview', '#preview');
     });
 
-    // 13. 下载功能
+    // 13. 【已修改】下载功能 (适配移动端)
     saveBtn.addEventListener('click', () => {
+        // 先显示一个加载提示
+        const loadingMessage = document.createElement('p');
+        loadingMessage.textContent = '正在生成图片...';
+        loadingMessage.style.color = 'white';
+        loadingMessage.style.fontSize = '20px';
+        showModal(loadingMessage, 'save', '#save');
+
         html2canvas(imageContainer, {
             useCORS: true,
             backgroundColor: null
         }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'generated-image.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
+            const image = new Image();
+            image.src = canvas.toDataURL('image/png');
+            image.style.maxWidth = '90vw';
+            image.style.maxHeight = '80vh';
+
+            const instruction = document.createElement('p');
+            instruction.textContent = '请长按上方图片保存';
+            instruction.style.color = 'white';
+            instruction.style.textAlign = 'center';
+            instruction.style.marginTop = '15px';
+
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+            container.appendChild(image);
+            container.appendChild(instruction);
+
+            // 替换加载提示为最终图片
+            showModal(container, 'save', '#save');
         });
     });
 
     // --- 初始化 ---
     function initialize() {
+        // 如果页面加载时URL就有哈希，清理掉，防止刷新页面时模态框残留
+        if (location.hash) {
+            history.replaceState(null, '', window.location.pathname);
+        }
+
         bindTextUpdates();
         makeDraggable(qrCodeOverlay);
 
-        // 绑定单选和多选框事件
         reasonRadioGroup.addEventListener('change', updateReason);
         classCheckboxGroup.addEventListener('change', updateClasses);
 
-        // 绑定位置和样式控制事件
         leftPosInput.addEventListener('input', updateTextHorizontalPosition);
         fontSizeInput.addEventListener('input', updateTextStyles);
         fontFamilySelect.addEventListener('change', updateTextStyles);
@@ -237,14 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
         qrCodeLeftInput.addEventListener('input', updateQrCodePosition);
         qrCodeTopInput.addEventListener('input', updateQrCodePosition);
 
-        // 绑定详细位置设置事件
         advancedPositionInputs.forEach(input => {
             input.addEventListener('input', () => updateTextVerticalPosition(input));
-            // 初始化时应用一次默认值
             updateTextVerticalPosition(input);
         });
 
-        // 触发一次以应用初始值
         updateTextHorizontalPosition();
         updateTextStyles();
         updateReason();
