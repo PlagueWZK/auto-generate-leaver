@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QFNU LEAVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -46,8 +49,8 @@
 
         <label>请假原因:</label>
         <div id="reason-radio-group">
-            <input type="radio" id="reason-bingjia" name="reason" value="病假"><label for="reason-bingjia">病假</label>
-            <input type="radio" id="reason-shijia" name="reason" value="事假" checked><label for="reason-shijia">事假</label>
+            <input type="radio" id="reason-bingjia" name="reason" value="病假" checked><label for="reason-bingjia">病假</label>
+            <input type="radio" id="reason-shijia" name="reason" value="事假"><label for="reason-shijia">事假</label>
             <input type="radio" id="reason-huodong" name="reason" value="活动"><label for="reason-huodong">活动</label>
             <input type="radio" id="reason-bisai" name="reason" value="比赛"><label for="reason-bisai">比赛</label>
             <input type="radio" id="reason-qita" name="reason" value="其他"><label for="reason-qita">其他</label>
@@ -84,7 +87,7 @@
 
         <h3>2. 样式与位置</h3>
         <label for="left-pos-input">文字水平位置 (px):</label>
-        <input type="number" id="left-pos-input" value="140">
+        <input type="number" id="left-pos-input" value="145">
 
         <label for="font-size-input">字体大小 (px):</label>
         <input type="number" id="font-size-input" value="16">
@@ -103,7 +106,7 @@
         <input type="number" id="qr-code-size-input" value="150">
 
         <label for="qr-code-left-input">二维码 X 坐标 (px):</label>
-        <input type="number" id="qr-code-left-input" value="148">
+        <input type="number" id="qr-code-left-input" value="152">
 
         <label for="qr-code-top-input">二维码 Y 坐标 (px):</label>
         <input type="number" id="qr-code-top-input" value="526">
@@ -133,7 +136,7 @@
                 <label for="top-pos-end">结束时间 (px):</label>
                 <input type="number" id="top-pos-end" data-target="end-overlay" value="379">
                 <label for="top-pos-class">节次 (px):</label>
-                <input type="number" id="top-pos-class" data-target="class-overlay" value="409">
+                <input type="number" id="top-pos-class" data-target="class-overlay" value="408">
                 <label for="top-pos-state">审核状态 (px):</label>
                 <input type="number" id="top-pos-state" data-target="state-overlay" value="438">
                 <label for="top-pos-teacher">审核人 (px):</label>
@@ -149,7 +152,7 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        <button id="preview-btn">全屏预览 (方便截图)</button>
+        <button id="preview-btn">全屏预览</button>
         <button id="save-btn">保存图片</button>
     </div>
 </div>

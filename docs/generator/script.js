@@ -164,31 +164,61 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingMessage.style.fontSize = '20px';
         showModal(loadingMessage, 'save', '#save');
 
-        html2canvas(imageContainer, {
-            useCORS: true,
-            backgroundColor: null
-        }).then(canvas => {
-            const image = new Image();
-            image.src = canvas.toDataURL('image/png');
-            image.style.maxWidth = '90vw';
-            image.style.maxHeight = '80vh';
 
-            const instruction = document.createElement('p');
-            instruction.textContent = '请长按上方图片保存';
-            instruction.style.color = 'white';
-            instruction.style.textAlign = 'center';
-            instruction.style.marginTop = '15px';
+        console.log("Waiting for fonts to be ready...");
+        document.fonts.ready.then(() => {
+            console.log("Fonts are ready, starting html2canvas.");
+            html2canvas(imageContainer, {
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const image = new Image();
+                image.src = canvas.toDataURL('image/png');
+                image.style.maxWidth = '90vw';
+                image.style.maxHeight = '80vh';
 
-            const container = document.createElement('div');
-            container.style.display = 'flex';
-            container.style.flexDirection = 'column';
-            container.style.alignItems = 'center';
-            container.appendChild(image);
-            container.appendChild(instruction);
+                const instruction = document.createElement('p');
+                instruction.textContent = '请长按上方图片保存';
+                instruction.style.color = 'white';
+                instruction.style.textAlign = 'center';
+                instruction.style.marginTop = '15px';
 
-            // 替换加载提示为最终图片
-            showModal(container, 'save', '#save');
+                const container = document.createElement('div');
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+                container.style.alignItems = 'center';
+                container.appendChild(image);
+                container.appendChild(instruction);
+
+                // 替换加载提示为最终图片
+                showModal(container, 'save', '#save');
+            });
         });
+        // html2canvas(imageContainer, {
+        //     useCORS: true,
+        //     backgroundColor: null
+        // }).then(canvas => {
+        //     const image = new Image();
+        //     image.src = canvas.toDataURL('image/png');
+        //     image.style.maxWidth = '90vw';
+        //     image.style.maxHeight = '80vh';
+        //
+        //     const instruction = document.createElement('p');
+        //     instruction.textContent = '请长按上方图片保存';
+        //     instruction.style.color = 'white';
+        //     instruction.style.textAlign = 'center';
+        //     instruction.style.marginTop = '15px';
+        //
+        //     const container = document.createElement('div');
+        //     container.style.display = 'flex';
+        //     container.style.flexDirection = 'column';
+        //     container.style.alignItems = 'center';
+        //     container.appendChild(image);
+        //     container.appendChild(instruction);
+        //
+        //     // 替换加载提示为最终图片
+        //     showModal(container, 'save', '#save');
+        //});
     });
 
     // --- 初始化 ---
