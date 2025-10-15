@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+//TODO: SEND REQUEST TO SERVER
     // --- 元素获取 ---
     const imageContainer = document.getElementById('image-container');
     const backgroundImg = document.getElementById('background-img');
