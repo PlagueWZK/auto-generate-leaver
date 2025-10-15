@@ -77,10 +77,9 @@ h3:first-of-type {
     opacity: 0.85;
 }
 
-.editor-area {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+/* 将预览区域默认隐藏 */
+.editor-area-hidden {
+    display: none;
     width: 100%;
 }
 
@@ -104,28 +103,14 @@ h3:first-of-type {
     font-size: 16px;
     color: #000000;
 }
-/* 移除了 .draggable-text 的 cursor: move */
 
 .draggable-img {
     position: absolute;
-    cursor: move; /* 仅图片可拖拽 */
+    cursor: move;
     user-select: none;
 }
 
-/* 初始位置定义 */
-#name-overlay { top: 140px; left: 140px; }
-#student-id-overlay { top: 170px; left: 140px; }
-#type-overlay { top: 200px; left: 140px; }
-#leave-overlay { top: 230px; left: 140px; }
-#reason-overlay { top: 260px; left: 140px; }
-#description-overlay { top: 290px; left: 140px; }
-#destination-overlay { top: 320px; left: 140px; }
-#start-overlay { top: 350px; left: 140px; }
-#end-overlay { top: 380px; left: 140px; }
-#class-overlay { top: 410px; left: 140px; }
-#state-overlay { top: 440px; left: 140px; }
-#teacher-overlay { top: 470px; left: 140px; }
-
+/* 初始位置由JS动态设置，此处移除 */
 
 /* 二维码图片样式 */
 #qr-code-overlay {
@@ -133,9 +118,50 @@ h3:first-of-type {
     left: 148px;
     width: 150px;
     height: 150px;
-    opacity: 0.5; /* 默认设为半透明 */
+    opacity: 0.5;
     transition: opacity 0.3s ease-in-out;
 }
+
+/* 多选框和单选框样式 */
+#reason-radio-group, #class-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+#reason-radio-group input, #class-checkbox-group input {
+    margin-right: 5px;
+}
+#reason-radio-group label, #class-checkbox-group label {
+    font-weight: normal;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 详细设置区域样式 */
+.advanced-settings summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.advanced-settings summary:hover {
+    background-color: #f0f2f5;
+}
+.advanced-settings .settings-content {
+    padding: 10px;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 
 /* 开关样式 */
 .toggle-switch-container {
