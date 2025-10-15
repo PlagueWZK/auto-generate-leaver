@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 元素获取 ---
     const imageContainer = document.getElementById('image-container');
+    const backgroundImg = document.getElementById('background-img');
     const qrCodeOverlay = document.getElementById('qr-code-overlay');
     const textOverlays = Array.from(document.querySelectorAll('.text-overlay'));
 
@@ -100,7 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. 背景和透明度切换
     imageSwitch.addEventListener('change', (e) => {
         const isFinalVersion = e.target.checked;
-        imageContainer.style.backgroundImage = isFinalVersion ? "url('whiteboard.png')" : "url('original.png')";
+        // 修改 img 的 src 而不是 background-image
+        backgroundImg.src = isFinalVersion ? "whiteboard.png" : "original.png";
         qrCodeOverlay.style.opacity = isFinalVersion ? '1' : '0.5';
     });
 
