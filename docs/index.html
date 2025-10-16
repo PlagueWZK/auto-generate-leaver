@@ -1,60 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon.png" type="image/png">
-    <title>请假条生成器</title>
-    <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
-        。form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
-        button:hover { background-color: #0056b3; }
-    </style>
+    <title>QFNU AUTO LEAVER</title>
 </head>
 <body>
-<h1>请假信息提交</h1>
-<form id="leave-form">
-    <div class="form-group">
-        <label for="name">姓名:</label>
-        <input type="text" id="name" required>
-    </div>
-    <div class="form-group">
-        <label for="id">学号：</label>
-        <input type="text" id="id" required>
-    </div>
-    <div class="form-group">
-        <label for="reason">请假原因:</label>
-        <input type="text" id="reason" placeholder="例如：事假、病假" required>
-    </div>
-    <div class="form-group">
-        <label for="description">原因描述:</label>
-        <textarea id="description" rows="4" required></textarea>
-    </div>
-    <div class="form-group">
-        <label for="destination">目的地:</label>
-        <input type="text" id="destination" required>
-    </div>
-    <div class="form-group">
-        <label for="start">开始日期:</label>
-        <input type="date" id="start" required>
-    </div>
-    <div class="form-group">
-        <label for="class">节次:</label>
-        <input type="text" id="class" placeholder="格式: 1-2, 5-6"
-               pattern="^((1[01]|[1-9])-(1[01]|[1-9]))(, ((1[01]|[1-9])-(1[01]|[1-9])))*$"
-               required>
-        <small id="class-error" style="color: red;"></small>
-    </div>
-    <div class="form-group">
-        <label for="teacher">审核人:</label>
-        <input type="text" id="teacher" required>
-    </div>
-    <button type="submit">生成并下载请假条</button>
-</form>
 
-<script src="script.js"></script>
 </body>
 </html>
