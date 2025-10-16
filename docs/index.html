@@ -1,16 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="favicon.png" type="img/png">
-    <title>QFNU AUTO LEAVER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <title>QFNU AUTO LEAVER - 曲阜师范大学请假条生成系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        .nav-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .card-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-features li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: gap 0.3s ease;
+        }
+
+        .card:hover .card-action {
+            gap: 12px;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            animation: fadeIn 1s ease 0.5s both;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        footer a:hover {
+            border-color: white;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .card-title {
+                font-size: 24px;
+            }
+
+            .card-icon {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+
+            .card-description {
+                font-size: 14px;
+            }
+        }
+
+        /* 桌面端优化 - 更大屏幕显示两列 */
+        @media (min-width: 1024px) {
+            .nav-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                max-width: 1000px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>
-    QFNU AUTO LEAVER
-</h1>
-<h2>
-    <a href="https://plaguewzk.github.io/auto-generate-leaver/generator" target="_blank">图片生成器</a>
-</h2>
+    <div class="container">
+        <header>
+            <h1>QFNU AUTO LEAVER</h1>
+            <p class="subtitle">曲阜师范大学请假条自动生成系统</p>
+        </header>
+
+        <div class="nav-cards">
+            <a href="generator/index.html" class="card">
+                <span class="card-icon">📝</span>
+                <h2 class="card-title">请假条生成器</h2>
+                <p class="card-description">
+                    一站式请假条生成工具,支持图片和HTML两种格式,满足不同场景需求
+                </p>
+                <ul class="card-features">
+                    <li>图片格式 - 生成精美的请假条图片,可直接保存分享</li>
+                    <li>HTML格式 - 下载标准HTML文件,便于打印和存档</li>
+                    <li>智能表单 - 自动验证输入,确保信息准确</li>
+                    <li>实时预览 - 所见即所得的编辑体验</li>
+                    <li>移动优化 - 完美支持手机和平板设备</li>
+                </ul>
+                <span class="card-action">
+                    立即使用
+                    <span>→</span>
+                </span>
+            </a>
+
+            <!-- 预留扩展卡片 -->
+            <div class="card" style="opacity: 0.6; cursor: not-allowed; pointer-events: none;">
+                <span class="card-icon">🚀</span>
+                <h2 class="card-title">更多功能</h2>
+                <p class="card-description">
+                    敬请期待...
+                </p>
+                <ul class="card-features">
+                    <li>批量生成功能</li>
+                    <li>历史记录管理</li>
+                    <li>模板自定义</li>
+                    <li>云端同步</li>
+                </ul>
+                <span class="card-action">
+                    即将上线
+                    <span>🔒</span>
+                </span>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 QFNU AUTO LEAVER |
+            <a href="https://github.com/PlagueWZK" target="_blank" rel="noopener">GitHub</a></p>
+        </footer>
+    </div>
 </body>
 </html>
