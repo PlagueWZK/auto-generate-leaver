@@ -159,8 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dom.inputs[key] && dom.overlays[key]) {
                 dom.overlays[key].textContent = dom.inputs[key].value;
                 if (key === 'start' || key === 'end') {
-                    let content = dom.inputs[key].value.replace('T',' ');
+                    let content = dom.inputs[key].value.replace('T', ' ');
                     dom.overlays[key].textContent = content;
+                }
+                if (key === 'teacher') {
+                    dom.overlays.teacher.textContent = dom.inputs[key].value + ';';
                 }
             }
         },
@@ -360,6 +363,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         },
 
+        updateAllText() {
+            for (const key in dom.inputs) {
+                this.updateText(key);
+            }
+        },
+
         // 初始化
         init() {
             // 1. 绑定文本输入框
@@ -405,11 +414,30 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.imageSwitch.addEventListener('change', (e) => this.switchBackground(e.target.checked));
             dom.generatePreviewBtn.addEventListener('click', () => this.generatePreview());
 
+            const now = new Date();
+            // 1. 获取当前时间的各个部分
+            const year = now.getFullYear();
+            // 2. getMonth() 返回 0-11，所以需要 +1
+            //    .toString().padStart(2, '0') 是为了补全前导零 (例如 9 -> '09')
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+
+            const formattedLocalTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            const dateTimeInput = document.getElementById('start-time');
+            dom.inputs.start.value = formattedLocalTime;
+            dom.inputs.end.value = null;
+
             this.updateTextHorizontalPosition();
             this.updateTextStyles();
             this.updateReason();
             this.updateClasses();
+            this.updateAllText()
             this.updateQrCodePosition();
+
+
         }
     };
 
@@ -509,26 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltipManager.init();
         imageGenerator.init();
         htmlDownloader.init();
-
-        const now = new Date();
-        // 1. 获取当前时间的各个部分
-        const year = now.getFullYear();
-        // 2. getMonth() 返回 0-11，所以需要 +1
-        //    .toString().padStart(2, '0') 是为了补全前导零 (例如 9 -> '09')
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        const day = now.getDate().toString().padStart(2, '0');
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-
-        // 3. 拼接成 "YYYY-MM-DDTHH:mm" 格式
-        const formattedLocalTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-
-        // 4. 找到 input 元素并设置其 value
-        const dateTimeInput = document.getElementById('start-time');
-        dom.inputs.start.value = formattedLocalTime;
-        dom.inputs.end.value = null;
-        imageGenerator.updateText("start");
-        imageGenerator.updateText("end");
     }
 
     // 启动应用
