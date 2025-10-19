@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // ==================== 图片生成器功能 ====================
     const imageContainer = document.getElementById('image-container');
@@ -345,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 加载模板
             const response = await fetch('template.html');
             if (!response.ok) {
-                alert('��法加载模板文件!');
+                alert('无法加载模板文件!');
                 return;
             }
             let templateContent = await response.text();
