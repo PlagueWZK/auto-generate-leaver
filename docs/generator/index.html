@@ -50,9 +50,12 @@
 
                 <label>请假原因:</label>
                 <div id="reason-radio-group">
-                    <input type="radio" id="reason-bingjia" name="reason" value="病假" checked><label for="reason-bingjia">病假</label>
-                    <input type="radio" id="reason-shijia" name="reason" value="事假"><label for="reason-shijia">事假</label>
-                    <input type="radio" id="reason-huodong" name="reason" value="活动"><label for="reason-huodong">活动</label>
+                    <input type="radio" id="reason-bingjia" name="reason" value="病假" checked><label
+                        for="reason-bingjia">病假</label>
+                    <input type="radio" id="reason-shijia" name="reason" value="事假"><label
+                        for="reason-shijia">事假</label>
+                    <input type="radio" id="reason-huodong" name="reason" value="活动"><label
+                        for="reason-huodong">活动</label>
                     <input type="radio" id="reason-bisai" name="reason" value="比赛"><label for="reason-bisai">比赛</label>
                     <input type="radio" id="reason-qita" name="reason" value="其他"><label for="reason-qita">其他</label>
                 </div>
@@ -64,10 +67,10 @@
                 <input type="text" id="destination-input" value="防呆文本">
 
                 <label for="start-input">开始时间:</label>
-                <input type="text" id="start-input" value="2025-01-01 00:00">
+                <input type="datetime-local" id="start-input" value="2025-01-01 00:00">
 
                 <label for="end-input">结束时间:</label>
-                <input type="text" id="end-input" value="2025-01-02 00:00">
+                <input type="datetime-local" id="end-input" value="2025-01-02 00:00">
 
                 <label>节次:</label>
                 <div id="class-checkbox-group">
@@ -150,14 +153,20 @@
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <div class="button-with-help">
-                    <button id="download-html-btn" class="generate-btn">下载HTML文件(用于手动配置)</button>
-                    <span class="help-icon">?</span>
-                    <div class="help-tooltip">
-                        <strong>下载HTML文件:</strong><br>
-                        点击这里会生成一个 .html 文件。您需要手动将此文件上传到您的服务器或静态页面托管服务上,
-                        然后将访问该html文件的URL解析为静态网页二维码,上传到上面的二维码区域完成图片编辑
-                    </div>
+                <div class="advanced-settings">
+                    <summary>手动配置功能</summary>
+                    <details class="settings-content">
+                        <div class="button-with-help">
+                            <button id="download-html-btn" class="generate-btn">下载HTML文件(用于手动配置)</button>
+                            <span class="help-icon">?</span>
+                            <div class="help-tooltip">
+                                <strong>下载HTML文件:</strong><br>
+                                点击这里会生成一个 .html 文件。您需要手动将此文件上传到您的服务器或静态页面托管服务上,
+                                然后将访问该html文件的URL解析为静态网页二维码,上传到上面的二维码区域完成图片编辑
+                            </div>
+                        </div>
+                        <hr />
+                    </details>
                 </div>
                 <div class="button-with-help">
                     <button type="button" id="qrcode-generate-button">自动生成二维码</button>
@@ -172,7 +181,7 @@
                 <div class="button-with-help">
                     <button id="generate-preview-btn" class="generate-btn">生成预览</button>
                     <span class="help-icon">?</span>
-                    <div class="help-tooltip">
+                    <div class="help-tooltip" >
                         <strong>生成预览:</strong><br>
                         在不保存更改的情况下，快速查看您的配置在最终页面上的显示效果。
                     </div>

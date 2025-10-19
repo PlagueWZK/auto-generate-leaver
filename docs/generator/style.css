@@ -1,3 +1,7 @@
+/* ==========================================================================
+   1. Font Declaration & Global Resets
+   ========================================================================== */
+
 @font-face {
     font-family: 'NotoSansSC';
     src: url('fonts/NotoSansSC-VF.ttf') format('truetype');
@@ -16,6 +20,10 @@ body {
     padding: 20px;
 }
 
+/* ==========================================================================
+   2. Typography
+   ========================================================================== */
+
 h1 {
     color: #333;
     text-align: center;
@@ -33,7 +41,30 @@ h3:first-of-type {
     margin-top: 0;
 }
 
-/* 标签页导航样式 */
+/* ==========================================================================
+   3. Main Layout
+   ========================================================================== */
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Position the editor area off-screen but keep it rendered */
+.editor-area-hidden {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    width: 100%;
+}
+
+/* ==========================================================================
+   4. Tab Navigation Component
+   ========================================================================== */
+
 .tab-navigation {
     display: flex;
     justify-content: center;
@@ -66,7 +97,6 @@ h3:first-of-type {
     border-color: #007bff;
 }
 
-/* 标签页内容 */
 .tab-content {
     display: none;
 }
@@ -75,13 +105,9 @@ h3:first-of-type {
     display: block;
 }
 
-.main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
-}
+/* ==========================================================================
+   5. Controls & Form Elements
+   ========================================================================== */
 
 .controls {
     background: #fff;
@@ -93,6 +119,10 @@ h3:first-of-type {
     gap: 10px;
     width: 90%;
     max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 5px;
 }
 
 .controls label {
@@ -119,6 +149,41 @@ h3:first-of-type {
     resize: vertical;
     font-family: inherit;
 }
+
+#reason-radio-group,
+#class-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#reason-radio-group input,
+#class-checkbox-group input {
+    margin-right: 5px;
+}
+
+#reason-radio-group label,
+#class-checkbox-group label {
+    font-weight: normal;
+    color: #333;
+    cursor: pointer;
+}
+
+.tip {
+    background-color: #e7f3ff;
+    padding: 10px;
+    border-radius: 4px;
+    color: #004085;
+    font-size: 14px;
+    border-left: 4px solid #007bff;
+    margin: 0 0 15px 0;
+}
+
+/* ==========================================================================
+   6. Buttons
+   ========================================================================== */
 
 .controls button {
     padding: 14px 20px;
@@ -153,129 +218,6 @@ h3:first-of-type {
     background: linear-gradient(135deg, #218838 0%, #1a9e7a 100%);
 }
 
-.form-group {
-    margin-bottom: 5px;
-}
-
-.tip {
-    background-color: #e7f3ff;
-    padding: 10px;
-    border-radius: 4px;
-    color: #004085;
-    font-size: 14px;
-    border-left: 4px solid #007bff;
-    margin: 0 0 15px 0;
-}
-
-/* 将编辑区域移出屏幕，但保持渲染 */
-.editor-area-hidden {
-    position: absolute;
-    top: 0;
-    left: -9999px;
-    width: 100%;
-}
-
-#image-container {
-    width: 380px;
-    height: 822px;
-    position: relative;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform-origin: top left;
-}
-
-#background-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-/* 统一文本浮层样式 */
-.text-overlay {
-    position: absolute;
-    z-index: 1;
-    user-select: none;
-    white-space: nowrap;
-    font-size: 16px;
-    color: #000000;
-    font-family: 'NotoSansSC', sans-serif;
-}
-
-.draggable-img {
-    position: absolute;
-    z-index: 1;
-    cursor: move;
-    user-select: none;
-}
-
-#qr-code-overlay {
-    top: 526px;
-    left: 148px;
-    width: 150px;
-    height: 150px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#reason-radio-group,
-#class-checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-#reason-radio-group input,
-#class-checkbox-group input {
-    margin-right: 5px;
-}
-
-#reason-radio-group label,
-#class-checkbox-group label {
-    font-weight: normal;
-    color: #333;
-    cursor: pointer;
-}
-
-.advanced-settings summary {
-    cursor: pointer;
-    font-weight: bold;
-    color: #007bff;
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.advanced-settings summary:hover {
-    background-color: #f0f2f5;
-}
-
-.advanced-settings .settings-content {
-    padding: 10px;
-    border: 1px solid #eee;
-    margin-top: 5px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* 详细设置中的快捷操作样式 */
-.offset-controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.offset-controls input {
-    flex-grow: 1;
-}
-
 .settings-btn {
     padding: 6px 12px;
     font-size: 14px;
@@ -300,6 +242,108 @@ h3:first-of-type {
     background-color: #c82333;
 }
 
+/* ==========================================================================
+   7. Advanced & Specific UI Components
+   ========================================================================== */
+
+/* --- Help Icon & Tooltip --- */
+.button-with-help {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.button-with-help button {
+    flex: 1;
+}
+
+.help-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    margin-left: 10px;
+}
+
+.help-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.help-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.help-tooltip.show {
+    display: block;
+}
+
+/* --- Advanced Settings Details/Summary --- */
+.advanced-settings summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.advanced-settings summary:hover {
+    background-color: #f0f2f5;
+}
+
+.advanced-settings .settings-content {
+    padding: 10px;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.offset-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.offset-controls input {
+    flex-grow: 1;
+}
+
+/* --- Toggle Switch --- */
 .toggle-switch-container {
     display: flex;
     align-items: center;
@@ -358,7 +402,58 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-/* 模态框样式 */
+/* ==========================================================================
+   8. Image Generation Area
+   ========================================================================== */
+
+#image-container {
+    width: 380px;
+    height: 822px;
+    position: relative;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform-origin: top left;
+}
+
+#background-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.text-overlay {
+    position: absolute;
+    z-index: 1;
+    user-select: none;
+    white-space: nowrap;
+    font-size: 16px;
+    color: #000000;
+    font-family: 'NotoSansSC', sans-serif;
+}
+
+.draggable-img {
+    position: absolute;
+    z-index: 1;
+    cursor: move;
+    user-select: none;
+}
+
+#qr-code-overlay {
+    top: 526px;
+    left: 148px;
+    width: 150px;
+    height: 150px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* ==========================================================================
+   9. Modal & Loading Indicator
+   ========================================================================== */
+
 .modal {
     display: none;
     position: fixed;
@@ -421,14 +516,17 @@ input:checked+.slider:before {
     border-radius: 8px;
 }
 
-/* 加载动画 */
 .loading {
     color: white;
     font-size: 20px;
     text-align: center;
 }
 
-/* 响应式设计 - 移动端优化 */
+/* ==========================================================================
+   10. Responsive Design
+   ========================================================================== */
+
+/* --- Tablet & Small Desktop --- */
 @media (max-width: 768px) {
     body {
         padding: 10px;
@@ -469,7 +567,7 @@ input:checked+.slider:before {
     }
 }
 
-/* 桌面端优化 */
+/* --- Large Desktop --- */
 @media (min-width: 1024px) {
     .controls {
         max-width: 600px;
@@ -485,147 +583,32 @@ input:checked+.slider:before {
     }
 }
 
-/* 触摸设备优化 */
+/* --- Touch Devices --- */
 @media (hover: none) and (pointer: coarse) {
-
     .controls input,
     .controls textarea,
     .controls button {
+        /* Prevent iOS auto-zoom on focus */
         font-size: 16px;
-        /* 防止iOS自动缩放 */
     }
 
     .tab-button {
+        /* Touch-friendly minimum size */
         min-height: 44px;
-        /* 触摸友好的最小尺寸 */
     }
 }
 
-.button-with-help {
-    position: relative;
-    /* 关键：为绝对定位的子元素提供锚点 */
-    display: flex;
-    /* 使用 flex 布局，让按钮和图标并排 */
-    align-items: center;
-    /* 垂直居中对齐 */
-
-    /* --- 这是你需要的修改 --- */
-    margin: 10px 0;
-    /* 只保留垂直外边距，水平外边距设为0 */
-    width: 100%;
-    /* 关键：让容器撑满父元素 (即 .controls) 的宽度 */
-    max-width: 100%;
-    /* 覆盖掉之前的 max-width: 90% */
-    /* --- 修改结束 --- */
-}
-
-/* * (关键修改)
- * 覆盖 .controls button 的宽度，使其在 .button-with-help 内生效 
- */
-.button-with-help button {
-    /* --- 这是你需要的修改 --- */
-    flex: 1;
-    /* 关键：让按钮占据所有可用的剩余空间 */
-    /* --- 修改结束 --- */
-
-    /* 你原有的按钮样式会继续生效 (padding, font-size 等) */
-}
-
-
-/* * 2. 问号图标样式 (修改此处) */
-.help-icon {
-    display: flex;
-    /* 使用 flex 确保内容居中 */
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    /* 稍微大一点，更易点击 */
-    height: 24px;
-    /* 稍微大一点，更易点击 */
-    font-size: 16px;
-    /* 问号字体也大一点 */
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
-    /* 蓝色背景 */
-    border-radius: 50%;
-    /* 关键：变成圆形 */
-    cursor: pointer;
-    /* 鼠标悬停时显示小手 */
-    user-select: none;
-    /* 防止用户选中文本 */
-    margin-left: 10px;
-    /* 与按钮保持一点距离 */
-    /* 不需要 vertical-align 了，flex 已经处理了垂直居中 */
-
-    /* 可以选择绝对定位，让问号图标脱离文档流，这样按钮就能完全控制宽度 */
-    /* position: absolute; */
-    /* right: -30px; /* 定位在按钮外部右侧 */
-    */
-    /* top: 50%; */
-    /* transform: translateY(-50%); */
-}
-
-/* * 3. 弹窗文本框样式 (保持不变或微调) */
-.help-tooltip {
-    display: none;
-    position: absolute;
-    /* 定位在图标的正上方 */
-    bottom: 120%;
-    /* 移动到图标上方（100% + 间距） */
-    left: 50%;
-    /* 相对于 .button-with-help 容器的50% */
-    transform: translateX(-50%);
-    /* 水平居中 */
-    background-color: #333;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 6px;
-    width: 280px;
-    /* 弹窗宽度可以适当增加 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-    font-size: 14px;
-    line-height: 1.5;
-    text-align: left;
-    /* 确保弹窗内文本左对齐 */
-}
-
-/* * 4. (可选) 使用伪元素创建小三角 */
-.help-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    /* 定位在弹窗的底部 */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-    /* 向上指的三角形 */
-}
-
-/* * 5. 用于JS控制显示的 "show" 类 */
-.help-tooltip.show {
-    display: block;
-}
-
-/* 响应式调整：在小屏幕上，弹窗可能需要调整 left 值，以防溢出屏幕 */
+/* --- Small Mobile (for tooltip adjustment) --- */
 @media (max-width: 400px) {
     .help-tooltip {
         width: 200px;
-        /* 更小的弹窗宽度 */
         left: 0;
-        /* 贴合左侧 */
         transform: translateX(0);
-        /* 取消水平居中，避免溢出 */
         margin-left: 10px;
-        /* 给左侧留些边距 */
     }
 
     .help-tooltip::after {
         left: 20px;
-        /* 三角形也跟着调整 */
         transform: translateX(0);
     }
 }

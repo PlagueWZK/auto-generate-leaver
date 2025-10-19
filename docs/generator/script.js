@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         qrCodeSizeInput: document.getElementById('qr-code-size-input'),
         qrCodeLeftInput: document.getElementById('qr-code-left-input'),
         qrCodeTopInput: document.getElementById('qr-code-top-input'),
-        qrCodeGenerateBtn: document.getElementById("qrcode-generate-button"),
+
 
         // 详细设置中的快捷操作
         offsetInput: document.getElementById('offset-input'),
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resetDefaultsBtn: document.getElementById('reset-defaults-btn'),
 
         // 操作按钮
-        generatePreviewBtn: document.getElementById('generate-preview-btn'),
         downloadHtmlBtn: document.getElementById('download-html-btn'),
-
+        qrCodeGenerateBtn: document.getElementById("qrcode-generate-button"),
+        generatePreviewBtn: document.getElementById('generate-preview-btn'),
         // 预览模态框
         modal: document.getElementById('fullscreen-modal'),
         modalContent: document.getElementById('modal-content'),
@@ -158,6 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateText(key) {
             if (dom.inputs[key] && dom.overlays[key]) {
                 dom.overlays[key].textContent = dom.inputs[key].value;
+                if (key === 'start' || key === 'end') {
+                    let content = dom.inputs[key].value.replace('T',' ');
+                    dom.overlays[key].textContent = content;
+                }
             }
         },
 
@@ -241,65 +245,81 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.qrCodeOverlay.style.opacity = isFinalVersion ? '1' : '0.5';
         },
 
-        generateRemoteQrCode() {
-            // 注意：你这里的 axios.post 没有处理返回结果，只是发起了请求
-            // 你可能需要 .then(response => { ... }) 来处理返回的二维码数据
-            axios.post('https://www.u1853627.nyat.app:54257/auto-generate-leaver/')
-                .then(response => {
-                    console.log("二维码生成请求成功:", response.data);
-                    // 假设 response.data.qrCodeUrl 是返回的图片URL
-                    // dom.qrCodeOverlay.src = response.data.qrCodeUrl; 
-                    // ...后续处理
-                })
-                .catch(error => {
-                    console.error("二维码生成失败:", error);
-                    alert("自动生成二维码失败！");
-                });
+        async generateRemoteQrCode() {
+            dom.qrCodeGenerateBtn.disabled = true;
+            dom.qrCodeGenerateBtn.textContent = '正在生成...'
+            let data = {
+                time: new Date().toISOString(),
+                name: dom.inputs.name.value,
+                id: dom.inputs.studentId.value,
+                type: dom.inputs.type.value,
+                leave: dom.inputs.leave.value,
+                reason: dom.reasonRadioGroup.querySelector('input[name="reason"]:checked').value,
+                description: dom.inputs.description.value,
+                destination: dom.inputs.destination.value,
+                startTime: dom.inputs.start.value.replace('T', ' '),
+                endTime: dom.inputs.end.value ? dom.inputs.end.value.replace('T', ' ') : null,
+                classes: Array.from(dom.classCheckboxGroup.querySelectorAll('input:checked')).map(cb => cb.value),
+                state: dom.inputs.state.value,
+                teacher: dom.inputs.teacher.value
+            }
+            if (!data.name || !data.id || !data.type || !data.leave || !data.reason || !data.description
+                || !data.destination || !data.startTime || !data.state || !data.teacher) {
+                alert('请填写所有必填字段(姓名、学号、请假类型、是否离校、请假原因、原因描述、目的地、开始时间、审核状态、审核人)');
+                dom.qrCodeGenerateBtn.disabled = false;
+                dom.qrCodeGenerateBtn.textContent = '自动生成二维码';
+                return;
+            }
+            try {
+                const qrCodeUrl = await this.getQrCodeRequest(data);
+
+                if (qrCodeUrl) {
+                    dom.qrCodeOverlay.src = qrCodeUrl;
+                    dom.qrCodeOverlay.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Error in generateRemoteQrCode:", error);
+                alert('生成过程中发生未知错误。');
+            } finally {
+                dom.qrCodeGenerateBtn.disabled = false;
+                dom.qrCodeGenerateBtn.textContent = '远程生成二维码';
+            }
         },
 
-        // 拖拽功能
-        makeDraggable(element) {
-            let isDragging = false, offsetX, offsetY;
-            
-            const startDrag = (e) => {
-                e.preventDefault();
-                isDragging = true;
-                const rect = element.getBoundingClientRect();
-                const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-                const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-                offsetX = clientX - rect.left;
-                offsetY = clientY - rect.top;
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('touchmove', onMove);
-                document.addEventListener('mouseup', stopDrag);
-                document.addEventListener('touchend', stopDrag);
-            };
-
-            const onMove = (e) => {
-                if (!isDragging) return;
-                const containerRect = dom.imageContainer.getBoundingClientRect();
-                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-                let newLeft = clientX - containerRect.left - offsetX;
-                let newTop = clientY - containerRect.top - offsetY;
-                newLeft = Math.max(0, Math.min(newLeft, containerRect.width - element.offsetWidth));
-                newTop = Math.max(0, Math.min(newTop, containerRect.height - element.offsetHeight));
-                element.style.left = `${newLeft}px`;
-                element.style.top = `${newTop}px`;
-                dom.qrCodeLeftInput.value = Math.round(newLeft);
-                dom.qrCodeTopInput.value = Math.round(newTop);
-            };
-
-            const stopDrag = () => {
-                isDragging = false;
-                document.removeEventListener('mousemove', onMove);
-                document.removeEventListener('touchmove', onMove);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchend', stopDrag);
-            };
-
-            element.addEventListener('mousedown', startDrag);
-            element.addEventListener('touchstart', startDrag);
+        async getQrCodeRequest(data) {
+            try {
+                // 1. 发起上传请求
+                const uploadResponse = await axios.post('https://www.u1853627.nyat.app:54257/auto-generate-leaver/generator/upload', data);
+                // 2. 处理上传的业务逻辑
+                if (uploadResponse.data.code === 1) {
+                    // 3. 上传成功，发起二维码请求 (修复：使用 await 和 get)
+                    try {
+                        const qrResponse = await axios.get(`https://www.u1853627.nyat.app:54257/auto-generate-leaver/generator/qrcode/${data.id}`);
+                        // 4. 处理二维码的业务逻辑
+                        if (qrResponse.data.code === 1) {
+                            alert('二维码生成成功');
+                            return qrResponse.data.data.qrCodeUrl;
+                        } else {
+                            alert(`生成二维码失败: ${qrResponse.data.msg}`);
+                            return "";
+                        }
+                    } catch (qrError) {
+                        // 处理二维码请求的 HTTP 或网络失败
+                        console.error('QR Code request failed:', qrError);
+                        alert('生成二维码失败，请稍后再试');
+                        return "";
+                    }
+                } else {
+                    // 3. (修复) 处理上传的业务失败
+                    alert(`上传失败: ${uploadResponse.data.msg}`);
+                    return "";
+                }
+            } catch (uploadError) {
+                // 2. 处理上传请求的 HTTP 或网络失败
+                console.error('Upload request failed:', uploadError);
+                alert('服务器上传文件失败，请稍后再试');
+                return "";
+            }
         },
 
         // 最终生成预览
@@ -382,16 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.qrCodeTopInput.addEventListener('input', () => this.updateQrCodePosition());
             dom.qrCodeGenerateBtn.addEventListener('click', () => this.generateRemoteQrCode());
 
-            // 6. 绑定底图切换
             dom.imageSwitch.addEventListener('change', (e) => this.switchBackground(e.target.checked));
-
-            // 7. 绑定拖拽
-            this.makeDraggable(dom.qrCodeOverlay);
-            
-            // 8. 绑定生成预览按钮
             dom.generatePreviewBtn.addEventListener('click', () => this.generatePreview());
 
-            // 9. 初始化默认值
             this.updateTextHorizontalPosition();
             this.updateTextStyles();
             this.updateReason();
@@ -429,17 +442,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = {
                 name: dom.inputs.name.value,
                 id: dom.inputs.studentId.value,
-                reason: document.querySelector('input[name="reason"]:checked')?.value || '',
+                type: dom.inputs.type.value,
+                leave: dom.inputs.leave.value,
+                reason: document.querySelector('input[name="reason"]:checked').value,
                 description: dom.inputs.description.value,
                 destination: dom.inputs.destination.value,
                 start: dom.inputs.start.value,
                 class: this._getClassPeriodsFromForm(),
-                teacher: dom.inputs.teacher.value,
+                state: dom.inputs.state.value,
+                teacher: dom.inputs.teacher.value
             };
 
             // 2. 验证
-            if (!data.name || !data.id || !data.reason || !data.description || !data.destination || !data.start || !data.teacher) {
-                alert('请填写所有必填字段(姓名、学号、请假原因、原因描述、目的地、开始时间、审核人)');
+            if (!data.name || !data.id || !data.type || !data.leave || !data.reason || !data.description || !data.destination || !data.start || !data.state || !data.teacher) {
+                alert('请填写所有必填字段(姓名、学号、 请假类型、是否离校、请假原因、原因描述、目的地、开始时间、审核状态、审核人)');
                 return;
             }
 
@@ -460,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(/{{destination}}/g, data.destination)
                     .replace(/{{start}}/g, data.start)
                     .replace(/{{class}}/g, data.class)
-                    .replace(/{{teacher}}/g, data.teacher);
+                    .replace(/{{teacher}}/g, data.teacher + ';');
 
                 // 4. 下载
                 this._downloadFile(filledContent, `leaver-${data.id}.html`);
@@ -487,12 +503,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (location.hash) {
             history.replaceState(null, '', window.location.pathname);
         }
-        
+
         // 初始化各个模块
         modalManager.init();
         tooltipManager.init();
         imageGenerator.init();
         htmlDownloader.init();
+
+        const now = new Date();
+        // 1. 获取当前时间的各个部分
+        const year = now.getFullYear();
+        // 2. getMonth() 返回 0-11，所以需要 +1
+        //    .toString().padStart(2, '0') 是为了补全前导零 (例如 9 -> '09')
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+
+        // 3. 拼接成 "YYYY-MM-DDTHH:mm" 格式
+        const formattedLocalTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // 4. 找到 input 元素并设置其 value
+        const dateTimeInput = document.getElementById('start-time');
+        dom.inputs.start.value = formattedLocalTime;
+        dom.inputs.end.value = null;
+        imageGenerator.updateText("start");
+        imageGenerator.updateText("end");
     }
 
     // 启动应用
