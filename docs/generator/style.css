@@ -135,6 +135,7 @@ h3:first-of-type {
 .controls input[type="date"],
 .controls input[type="file"],
 .controls input[type="number"],
+.controls input[type="datetime-local"],
 .controls textarea,
 .controls select {
     width: 100%;
